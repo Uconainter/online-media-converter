@@ -1,6 +1,6 @@
 ---
 
-# Remote Jobs HR Platform
+# Online Media Converter
 
 This repository contains resources to help you build a comprehensive Online Media Converter. The project utilizes **Django** for the backend and **React** for the frontend.
 
