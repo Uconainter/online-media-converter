@@ -17,7 +17,7 @@ class VideoInfo(APIView):
             return Response({'error': 'Video URL is required'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            with yt_dlp.YoutubeDL(YDL_OPTS) as ydl:
                 info = ydl.extract_info(url, download=False)
                 video_info = {
                     'title': info.get('title', 'Unknown Title'),
@@ -39,7 +39,7 @@ class ConvertVideo(APIView):
         
         try:
             # extract the video from Youtube
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            with yt_dlp.YoutubeDL(YDL_OPTS) as ydl:
                 info = ydl.extract_info(url, download=False)
                 title = info.get('title', 'Unknown Title')
         except Exception as e:
