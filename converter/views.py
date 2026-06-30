@@ -7,11 +7,7 @@ import yt_dlp
 from django.utils.text import slugify
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-YDL_OPTS = {
-    "cookiefile": os.path.join(BASE_DIR, "cookies.txt"),
-}
+YDL_OPTS = {}
 
 
 class VideoInfo(APIView):
@@ -21,7 +17,7 @@ class VideoInfo(APIView):
             return Response({'error': 'Video URL is required'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            with yt_dlp.YoutubeDL(YDL_OPTS) as ydl:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=False)
                 video_info = {
                     'title': info.get('title', 'Unknown Title'),
@@ -43,7 +39,7 @@ class ConvertVideo(APIView):
         
         try:
             # extract the video from Youtube
-            with yt_dlp.YoutubeDL(YDL_OPTS) as ydl:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=False)
                 title = info.get('title', 'Unknown Title')
         except Exception as e:
@@ -92,5 +88,5 @@ def download_video(url, output_path, format):
         'outtmpl': output_path,
         'noplaylist': True
     }
-    with yt_dlp.YoutubeDL(YDL_OPTS) as ydl:
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
